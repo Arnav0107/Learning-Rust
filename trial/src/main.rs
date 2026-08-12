@@ -244,10 +244,201 @@
 //     println!("End count = {count}");
 
 
-fn main() {
-    let a = [10, 20, 30, 40, 50];
+// fn main() {
+//     let a = [10, 20, 30, 40, 50];
 
-    for element in a {
-        println!("the value is: {element}");
-    }
+//     for element in a {
+//         println!("the value is: {element}");
+//     }
+// }
+
+
+// fn main() {
+// //     let s1 = String::from("hello");
+// //     let s2 = s1;
+// //     println!("{s1}"); // ❌ compile error: value borrowed after move
+//     let s1 = String::from("hello");
+//     let s2 = s1.clone();
+//     println!("{s1}, {s2}"); // both valid — separate heap allocations
+// }
+
+
+// fn main() {
+//     let s = String::from("hello");
+//     takes_ownership(s);       // s moves in — no longer usable here
+//     // println!("{s}");          // ❌ compile error: value borrowed after move
+//     let x = 5;
+//     makes_copy(x);             // x is Copy — still usable after
+//     println!("{x}");  // no error
+// }
+// fn takes_ownership(some_string: String) { println!("{some_string}"); } // dropped at end
+// fn makes_copy(some_integer: i32) { println!("{some_integer}"); }        // nothing special happens
+
+
+// fn calculate_length(s: &String) -> usize {
+//     s.len()
+// }
+
+// fn main() {
+//     let s1 = String::from("hello");
+
+//     let len = calculate_length(&s1); //The & is the important part.
+
+//     println!("String: {s1}");
+//     println!("Length: {len}");
+// }
+
+
+// fn change(some_string: &String) {
+//     some_string.push_str(", world");
+// }
+
+// fn main() {
+//     let s = String::from("hello");
+
+//     change(&s);
+
+//     println!("{s}");
+// }
+
+// // &s means immutable reference.
+
+
+// now lets make the reference mutable 
+
+
+// fn change (some_string: &mut String){
+//     some_string.push_str(",world");
+// }
+
+// fn main() {
+//     let mut s =  String::from("hello");
+
+//     change(&mut s);
+//             // ^ creates a mutable reference
+//     println!("{s}");
+// }
+
+
+
+// fn main() {
+//     let mut s = String::from("hello");
+
+//     let r1 = &mut s;
+//     let r2 = &mut s;
+
+//     println!("{r1}, {r2}");
+// }
+
+// //Rust doesn't allow both to exist at the same time
+
+
+// mutiple immutable reference 
+
+
+// fn main() {
+//     let s = String::from("hello");
+
+//     let r1 = &s;
+//     let r2 = &s;
+
+//     println!("{r1}, {r2}");
+
+// }
+
+// // /Both are only reading, so there's no conflict.
+
+
+// fn main() {
+//     let mut s = String::from("hello");
+
+//     let r1 = &s;
+//     let r2 = &s;
+
+//     let r3 = &mut s;
+
+//     println!("{r1}, {r2}, {r3}");
+// }
+
+// r1 ──┐
+//      ├──→ s
+// r2 ──┘
+
+// r3 ───→ s
+//        ↑
+//    wants to modify
+
+//Rust says: people are currently reading this value, so you can't modify it at the same time.
+
+
+
+// fn main() {
+//     let mut s = String::from("hello");
+
+//     {
+//         let r1 = &mut s;
+//         r1.push_str(" world");
+//         println!("{r1}");
+//     } // r1 ends here
+
+//     let r2 = &mut s;
+//     r2.push_str("!");
+//     println!("{r2}");
+// }
+
+// //Mutable references one after another
+
+
+// fn main() {
+//     let mut s = String::from("hello");
+//     let r1 = &s;
+//     let r2 = &s;
+//     println!("{r1} and {r2}"); // r1, r2 last used here — their scope ends now
+
+//     let r3 = &mut s; // ✅ fine — no overlap with r1/r2
+//     println!("{r3}");
+// }
+
+// //reference is valid from where it's created until the last point it's actually used — not necessarily until the end of the block. This is called non-lexical lifetimes
+
+
+// fn dangle() -> &String {
+//     let s = String::from("hello");
+//     &s   ❌ reference to local variable
+
+// }
+
+// fn main() {
+//     let r = dangle();
+//     println!("{r}");
+// }
+
+// dangle()
+//    │
+//    ├── s → "hello"
+//    │
+//    └── &s → reference to "hello"
+
+// } // s is dropped here
+
+// fn no_dangle() -> String {
+//     let s = String::from("hello");
+//     s  // // ✅ ownership moves out
+// }
+
+// fn main() {
+//     let r = no_dangle();
+
+//     println!("{r}");
+// }
+
+
+//The Slice Type
+
+// let s = String::from("hello");
+
+// println!("{}", s[0]); // ❌ Error
+
+fn first_word(s: &String) -> usize{
+    let bytes = s.as_bytes();
 }
