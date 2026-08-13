@@ -439,6 +439,224 @@
 
 // println!("{}", s[0]); // ❌ Error
 
-fn first_word(s: &String) -> usize{
-    let bytes = s.as_bytes();
+// fn first_word(s: &String) -> usize{
+//     let bytes = s.as_bytes();
+
+//     for(i,&item) in bytes.iter().enumerate() {
+//         if item == b' '{
+//             return i;
+//         }
+//     }
+
+//     s.len()
+// }
+
+// fn main() {
+//     let mut s = String::from("hello world");
+//     let word = first_word(&s);
+//     println!("word index: {word}");
+//     s.clear();
+//     println!("string: '{s}'");
+//     println!("word index: {word}");
+// }
+
+
+// fn main() {
+//     let s = String::from("hello world");
+
+//     let hello = &s[0..5];
+//     let world = &s[6..11];
+//     println!("{hello} {world}");
+// }
+
+// s
+// │
+// └──────────────────────────► h e l l o   w o r l d
+//                               0 1 2 3 4 5 6 7 8 9 10
+//                               └─────────┘
+//                                   hello
+
+// s
+// │
+// └──────────────────────────────► h e l l o   w o r l d
+//                                   0 1 2 3 4 5 6 7 8 9 10
+//                                             └─────────────┘
+//                                                  world
+
+// Both hello and world are simply views into s
+
+
+
+
+// fn first_word(s: &String) -> &str {
+//     let bytes = s.as_bytes();
+//     for (i, &item) in bytes.iter().enumerate() {
+//         if item == b' ' {
+//             return &s[0..i];
+//         }
+//     }
+//     &s[..]
+// }
+
+
+// fn main() {
+//     let mut s = String::from("hello world");
+//     let word = first_word(&s);
+//     s.clear();                    // ❌ error!
+//     println!("{word}");
+// }
+
+
+
+// struct User {
+//     active: bool,
+//     username: String,
+//     email: String,
+//     sign_in_count: u64,
+// }
+
+
+// fn main() {
+//     // let user1 = User {
+//     //     active: true,
+//     //     username: String::from("someusername123"),
+//     //     email: String::from("someone@example.com"),
+//     //     sign_in_count: 1,
+//     // };
+//     // user1.email = String::from("anotheremail@example.com");
+//     // error cause user1 is not mutable 
+
+//     // let mut user1 = User {
+//     //     active: true,
+//     //     username: String::from("someusername123"),
+//     //     email: String::from("someone@example.com"),
+//     //     sign_in_count: 1,
+//     // };
+//     // user1.email = String::from("anotheremail@example.com");
+//     // println!("{}",user1.email);
+
+//     // verbose
+//     let user2 = User {
+//         active: user1.active,
+//         username: user1.username,
+//         email: String::from("another@example.com"),
+//         sign_in_count: user1.sign_in_count,
+//     };
+
+//     // with struct update syntax
+//     let user2 = User {
+//         email: String::from("another@example.com"),
+//         ..user1
+//     };
+// }
+
+
+// fn build_user(email: String, username: String) -> User {
+//     User {
+//         active: true,
+//         username: username,
+//         email: email,
+//         sign_in_count: 1,
+//     }
+// }
+
+
+// #[derive(Debug)]
+// struct Rectangle {
+//     width: u32,
+//     height: u32,
+// }
+
+// fn main() {
+//     let rect1 = Rectangle {
+//         width: 30,
+//         height: 50,
+//     };
+
+//     println!("rect1 is {rect1:?}"); // ❌ still fails — needs Debug too
+
+//     println!(
+//         "The area of the rectangle is {} square pixels.",
+//         area(&rect1)
+//     );
+// }
+
+// fn area(rectangle: &Rectangle) -> u32 {
+//     rectangle.width * rectangle.height
+// }
+
+
+// #[derive(Debug)]
+// struct Rectangle {
+//     width: u32,
+//     height: u32,
+// }
+
+// fn main() {
+//     let scale = 2;
+//     let rect1 = Rectangle {
+//         width: dbg!(30 * scale),
+//         height: 50,
+//     };
+
+//     dbg!(&rect1);
+// }
+
+// dbg! returns ownership of the expression’s value, the width field will get the same value as if we didn’t have the dbg! call there
+
+// 1. What a method is
+
+// Definition: A method is like a function, but it's defined inside an impl block for a specific type, and its first parameter is always self — the instance the method is called on.
+
+
+// impl Rectangle {
+//     fn area(&self) -> u32 {
+//         self.width * self.height
+//     }
+// }
+
+// rect1.area() // method syntax: instance.method_name()
+
+// // &self — borrows immutably (just reading). Most common.
+// // &mut self — borrows mutably (method changes the instance).
+// // self — takes ownership (rare; used when the method transforms self into something else and the original shouldn't be usable afterward).
+
+
+// impl Rectangle {
+//     fn width(&self) -> bool {
+//         self.width > 0
+//     }
+// }
+
+// fn main() {
+//     let rect1 = Rectangle {
+//         width: 30,
+//         height: 50,
+//     };
+
+//     if rect1.width() {
+//         println!("The rectangle has a nonzero width; it is {}", rect1.width);
+//     }
+// }
+
+
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn width(&self) -> bool {
+        self.width > 0
+    }
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!("Field: {}", rect1.width);
+    println!("Method: {}", rect1.width());
 }
