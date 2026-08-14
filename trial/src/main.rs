@@ -640,23 +640,119 @@
 // }
 
 
-struct Rectangle {
-    width: u32,
-    height: u32,
+// struct Rectangle {
+//     width: u32,
+//     height: u32,
+// }
+
+// impl Rectangle {
+//     fn width(&self) -> bool {
+//         self.width > 0
+//     }
+// }
+
+// fn main() {
+//     let rect1 = Rectangle {
+//         width: 30,
+//         height: 50,
+//     };
+
+//     println!("Field: {}", rect1.width);
+//     println!("Method: {}", rect1.width());
+// }
+
+
+
+//enum 
+
+
+//n enum lets you say a value is one of a fixed set of possibilities
+
+
+//defining a enum 
+// enum Payment {
+//     Cash,
+//     Card,
+//     UPI,
+// }
+
+// fn process_payment(payment: Payment) {
+//     match payment {
+//         Payment::Cash => {
+//             println!("Paid using cash");
+//         }
+
+//         Payment::Card => {
+//             println!("Paid using card");
+//         }
+
+//         Payment::UPI => {
+//             println!("Paid using UPI");
+//         }
+//     }
+// }
+
+
+// fn main() {
+//     let payment = Payment::Card;
+
+//     process_payment(payment);
+// }
+
+
+//enum with data 
+// enum Payment {
+//     Cash,
+//     Card(String),
+//     UPI(String),
+// }
+
+// fn process_payment(payment:Payment){
+//     match payment {
+//         Payment::Cash => {
+//             println!("Paid using cash");
+//         }
+//         Payment::Card(number) => {
+//             println!("Card Number: {number}");
+//         }
+//         Payment::UPI(upi) => {
+//             println!("UPI Id: {upi}");
+//         }
+//     }
+// }
+
+// fn main() {
+//     let payment1 = Payment::Cash;
+//     let payment2 = Payment::Card("1234567890".to_string());
+//     let payment3 = Payment::UPI("1234567890".to_string());
+
+//     process_payment(payment1);
+//     process_payment(payment2);
+//     process_payment(payment3);
+// }
+
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
 }
 
-impl Rectangle {
-    fn width(&self) -> bool {
-        self.width > 0
+fn value(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
     }
 }
 
-fn main() {
-    let rect1 = Rectangle {
-        width: 30,
-        height: 50,
-    };
 
-    println!("Field: {}", rect1.width);
-    println!("Method: {}", rect1.width());
+fn main() {
+    let coin = Coin::Quarter;
+
+    let money = value(coin);
+
+    println!("{money}");
 }
