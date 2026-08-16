@@ -732,27 +732,179 @@
 // }
 
 
-enum Coin {
-    Penny,
-    Nickel,
-    Dime,
-    Quarter,
-}
+// enum Coin {
+//     Penny,
+//     Nickel,
+//     Dime,
+//     Quarter,
+// }
 
-fn value(coin: Coin) -> u8 {
-    match coin {
-        Coin::Penny => 1,
-        Coin::Nickel => 5,
-        Coin::Dime => 10,
-        Coin::Quarter => 25,
-    }
-}
+// fn value(coin: Coin) -> u8 {
+//     match coin {
+//         Coin::Penny => 1,
+//         Coin::Nickel => 5,
+//         Coin::Dime => 10,
+//         Coin::Quarter => 25,
+//     }
+// }
 
 
-fn main() {
-    let coin = Coin::Quarter;
+// fn main() {
+//     let coin = Coin::Quarter;
 
-    let money = value(coin);
+//     let money = value(coin);
 
-    println!("{money}");
-}
+//     println!("{money}");
+// }
+
+
+// 1. What is a crate?
+// A crate is the smallest unit of code that the Rust compiler compiles.
+
+
+//             Crate
+//               │
+//        ┌──────┴──────┐
+//        ↓             ↓
+//    Binary          Library
+
+// Binary crate
+// A binary crate creates an executable program.
+// For eg 
+// fn main() {
+//     println!("Hello");
+// }
+
+//Library Crate 
+// A library crate doesn't have a main() function. Instead, it provides functionality that other programs can use.
+
+
+
+// what is package 
+// A package is a bundle of one or more crates.
+
+
+// What does Cargo.toml do?
+// Cargo.toml describes the package and tells Cargo how to build it.
+
+    //              PACKAGE
+    //                 │
+    //          Cargo.toml
+    //                 │
+    //       ┌─────────┴─────────┐
+    //       │                   │
+    //   BINARY CRATE         LIBRARY CRATE
+    //   src/main.rs           src/lib.rs
+    //       │                   │
+    //  executable          reusable code
+
+
+// 1. What is a module?
+// A module is a way to organize related code.
+
+// mod front_of_house {
+//     mod hosting {
+//         fn add_to_waitlist() {}
+//         fn seat_at_table() {}
+//     }
+
+//     mod serving {
+//         fn take_order() {}
+//         fn serve_order() {}
+//         fn take_payment() {}
+//     }
+// }
+
+
+
+// mod front_of_house {
+//     mod hosting {
+//         fn add_to_waitlist() {}
+//     }
+// }
+
+
+// crate
+// │
+// └── front_of_house
+//        │
+//        └── hosting
+//               │
+//               └── add_to_waitlist()
+
+// crate represents the root of your current crate.
+
+// Making something public with pub
+
+// A path tells Rust where something is located.
+
+// Paths can be absolute or relative.
+
+
+
+
+// 12. What does use do?
+// Suppose you have this long path:
+// crate::garden::vegetables::Asparagus
+// Instead of repeatedly writing:
+// let a = crate::garden::vegetables::Asparagus {};
+// let b = crate::garden::vegetables::Asparagus {};
+
+// you can write:
+// use crate::garden::vegetables::Asparagus;
+// Then:
+// let a = Asparagus {};
+// So:
+// use crate::garden::vegetables::Asparagus;
+// basically means:
+// "Bring Asparagus into my current scope so I can use its short name."
+
+// mod
+//  ↓
+// Create/declare a module
+
+// pub
+//  ↓
+// Make something public
+
+// ::
+//  ↓
+// Navigate through a path
+
+// use
+//  ↓
+// Create a shortcut to a path
+
+// crate
+//  ↓
+// Root of the current crate
+
+// parent
+//  ↓
+// Module containing another module
+
+// child
+//  ↓
+// Module inside another module
+
+// siblings
+//  ↓
+// Modules at the same level
+
+
+// Absolute path
+// An absolute path starts from the root.
+
+// Relative path
+// A relative path starts from where you currently are
+
+
+
+// Syntax	Meaning
+// use crate::foo;	Create shortcut foo
+// use crate::foo::bar;	Import bar
+// use x as y;	Rename x to y
+// pub use x;	Import + make it publicly available
+// use std::{A, B};	Import multiple items
+// use std::io::{self, Write};	Import module + item
+// use std::*;	Import all public items
