@@ -908,3 +908,239 @@
 // use std::{A, B};	Import multiple items
 // use std::io::{self, Write};	Import module + item
 // use std::*;	Import all public items
+
+
+// vector normally stores values of the same type.
+// let numbers = vec![1, 2, 3, 4];       // Vec<i32>
+// let names = vec!["Arnav", "Rahul"];   // Vec<&str>
+
+// You can't normally do:
+// let v = vec![10, "hello", 20]; // ❌
+
+//creating a vector 
+
+// fn main(){
+    // let mut v = Vec::new();
+
+    // v.push(10);
+    // v.push(20);
+    // v.push(30);
+
+    // println!("{:?}", v);
+
+    // let v = vec![10, 20, 30, 40];
+
+    // // let x = v[2];
+    // // println!("{x}");
+
+    // let x = v.get(1);
+    // println!("{:?}", x);
+
+
+    //example of borrowing 
+
+    // let mut v = vec![1,2,3,4,5];
+    // let first = &v[0];
+    // v.push(6);
+    // println!("the first element is: {first}");
+
+    // //error 
+    // //A vector stores its elements next to each other in memory
+    // //Sometimes when you push() a new element, Rust may need to move the entire vector to a new memory location if the old location doesn't have enough space.
+
+    // let v = vec![100, 32, 57];
+
+    // for i in &v {
+    //     println!("{i}");
+    // }
+
+//     let mut v = vec![100, 32, 57];
+
+//     for i in &mut v {
+//         *i += 50;
+//     }
+
+//     println!("{:?}", v);
+//  //   *i means:the actual value being referenced
+    
+    
+// }
+
+
+// let name = "Arnav";
+// Here "Arnav" is a &str
+
+// let name = String::from("Arnav");
+// This is an owned, growable string.
+
+
+// fn main() {
+//     let s = "नमस्ते";
+
+//     for c in s.chars() {
+//         println!("{c}");
+//     }
+// }
+
+// fn main() {
+
+//     use std::collections::HashMap;
+    
+//     let mut scores = HashMap::new();
+    
+//     scores.insert(String::from("Blue"), 10);
+//     scores.insert(String::from("Yellow"), 50);
+
+//     // let score = scores.get("Blue");
+//     // println!("{:?}",score);
+//     // //Some(10)
+
+//     // let score = scores.get("Blue").copied().unwrap_or(0);
+//     // println!("{:?}",score);
+
+//     //update and overwrite
+//     //scores.insert(String::from("Blue"), 25);
+
+//     //check if key exists and only then insert
+//     scores.entry(String::from("Blue")).or_insert(50);
+//     let score = scores.get("Blue").copied().unwrap_or(0);
+//     println!("{:?}",score);
+//     //it will not print 50 cause blue already exist 
+    
+// }
+
+
+// fn main() {
+//     use std::collections::HashMap;
+
+//     let text = "hello world hello";
+
+//     let mut map = HashMap::new();
+
+//     for word in text.split_whitespace() {
+//         let count = map.entry(word).or_insert(0);
+//         *count += 1;
+//     }
+
+//     println!("{map:?}");
+// }
+
+
+// enum Result<T, E> {
+//     Ok(T),
+//     Err(E),
+// }
+
+
+// fn divide(a: i32, b: i32) -> Result<i32, String> {
+//     if b == 0 {
+//         Err(String::from("Cannot divide by zero"))
+//     } else {
+//         Ok(a / b)
+//     }
+// }
+
+// fn main() {
+//     // let result = divide(10, 2);
+//     // println!("{:?}", result); // Ok(5)
+//     match divide(10, 0) {
+//     Ok(value) => println!("Result: {value}"),
+//     Err(error) => println!("Error: {error}"),
+//     }
+//     //Error: Cannot divide by zero
+
+// }
+
+
+// use std::fs::File;
+// use std::io::ErrorKind;
+
+// let file = match File::open("hello.txt") {
+//     Ok(file) => file,
+
+//     Err(error) => match error.kind() {
+//         ErrorKind::NotFound => {
+//             File::create("hello.txt").unwrap()
+//         }
+
+//         _ => {
+//             panic!("Something went wrong: {error:?}");
+//         }
+//     },
+// };
+
+// Try opening file
+//       ↓
+//     Ok?
+//    /   \
+//  Yes    No
+//  ↓       ↓
+// Use    Why?
+// file     ↓
+//        NotFound?
+//        /      \
+//      Yes       No
+//       ↓         ↓
+//    Create     panic
+//    file
+
+
+
+// fn divide(a: i32, b: i32) -> Result<i32, String> {
+//     if b == 0 {
+//         Err(String::from("Cannot divide by zero"))
+//     } else {
+//         Ok(a / b)
+//     }
+// }
+
+// use std::fs::File;
+
+// fn main() {
+//     let result = File::open("hello.txt");
+//     match result {
+//     Ok(file) => println!("File opened!"),
+//     Err(error) => println!("Could not open file: {error}"),
+//     }
+// }
+
+// use std::fs::File;
+// use std::io::ErrorKind;
+// fn main() {
+    
+//     let file = match File::open("hello.txt") {
+//         Ok(file) => file,
+        
+//         Err(error) => match error.kind() {
+//             ErrorKind::NotFound => {
+//                 File::create("hello.txt").unwrap()
+//             }
+            
+//             _ => {
+//                 panic!("Something went wrong: {error:?}");
+//             }
+//         },
+//     };
+// }
+
+
+use std::fs::File;
+use std::io;
+use std::io::Read;
+
+fn main() {
+    let mut file = match File::open("hello.txt") {
+        Ok(file) => file,
+        Err(e) => {
+            println!("Error opening file: {e}");
+            return;
+        }
+    };
+
+    let mut username = String::new();
+
+    match file.read_to_string(&mut username) {
+        Ok(_) => println!("{username}"),
+        Err(e) => println!("Error reading file: {e}"),
+    };
+}
